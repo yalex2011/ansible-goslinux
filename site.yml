@@ -1,0 +1,32 @@
+---
+
+- name: Roles for 1c cluster
+  hosts:
+    - erc-app
+
+  # become: true
+  # become_user: root
+  # become_method: sudo
+
+  roles:
+    - { role: 'update_system', tags: 'update_system' }
+#    - { role: 'install_vmware_tools', tags: 'vm-tools' }
+    - { role: 'install_tools', tags: 'install_tools' }
+    - { role: 'set_hostname', tags: 'set_hostname' }
+    - { role: 'disable_selinux', tags: 'disable_selinux' }
+    - { role: 'fix_vmware', tags: 'fix_vmware' }
+    - { role: 'reboot', tags: 'reboot' }
+    - { role: 'config_ntp_client', tags: 'config_ntp_client' }
+    - { role: 'install_postgresql', tags: 'install_postgresql' }
+    - { role: 'config_postgresql_master', tags: 'config_postgresql_master' }
+    - { role: 'create_ras_daemon', tags: 'create_ras_daemon' }
+    - { role: 'install_custom_fonts_1c', tags: 'install_custom_fonts_1c' }
+    - { role: 'cp_1c_files', tags: 'cp_1c_files'}
+    - { role: 'install_1c', tags: 'install_1c'}
+    - { role: 'chenge_hosts', tags: 'chenge_hosts'}
+    - { role: 'install_libs_for_1c', tags: 'install_libs_for_1c'}
+    - { role: 'disable_abrtd', tags: 'disable_abrtd, abrt-disable-gpgcheck'}
+    - { role: 'install_haproxy', tags: 'install_haproxy'}
+    #- { role: 'config_postgresql_slave', tags: 'config_postgresql_slave' }
+    # Ошибка TypeError: coercing to Unicode: need string or buffer, NoneType found
+    #- { role: 'pg_tune', tags: 'pg_tune' }
