@@ -1,0 +1,8 @@
+---
+
+- name: Crete mount dir
+  file:
+    path: /mnt/cdrom
+    state: directory
+
+- name: mount 

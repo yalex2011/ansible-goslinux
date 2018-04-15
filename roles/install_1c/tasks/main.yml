@@ -1,0 +1,28 @@
+---
+
+- name: "Install Common Libraries for 1C"
+  yum: state=present name={{ item }} update_cache=yes
+  with_items:
+#    - unixODBC
+#    - unixODBC.i686
+    - libgsf
+    - t1lib
+    - icu
+    - httpd
+    - samba
+    - ImageMagick
+    - libxslt
+    - libfonts
+    - msttcore-fonts-installer
+  state: latest
+
+- name: Install 1c server
+  yum:
+    name:
+      - /home/distr/8.3.10.2299.LinuxServer.x64/1C_Enterprise83-common-8.3.10-2299.x86_64.rpm
+      - /home/distr/8.3.10.2299.LinuxServer.x64/1C_Enterprise83-common-nls-8.3.10-2299.x86_64.rpm
+      - /home/distr/8.3.10.2299.LinuxServer.x64/1C_Enterprise83-server-8.3.10-2299.x86_64.rpm
+      - /home/distr/8.3.10.2299.LinuxServer.x64/1C_Enterprise83-server-nls-8.3.10-2299.x86_64.rpm
+      - /home/distr/8.3.10.2299.LinuxServer.x64/1C_Enterprise83-ws-8.3.10-2299.x86_64.rpm
+      - /home/distr/8.3.10.2299.LinuxServer.x64/1C_Enterprise83-ws-nls-8.3.10-2299.x86_64.rpm
+    state: present

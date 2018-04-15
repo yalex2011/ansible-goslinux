@@ -1,0 +1,66 @@
+---
+
+- name: Install vftpd
+  yum:
+    name: vsftpd
+    state: latest
+  tags: install_vsftpd
+
+- name: Enable services for automatic start
+  service:
+    name: "{{ item }}"
+    enabled: yes
+  with_items:
+    - vsftpd
+  tags: install_vsftpd
+
+- name: Configuring vsftp
+  template:
+    src: ./templates/vsftpd.conf.j2
+    dest: /etc/vsftpd/vsftpd.conf
+    owner: root
+    group: root
+    mode: "0644"
+    backup: yes
+  notify: restart vsftpd
+  tags: install_vsftpd
+
+- name: Configure user list
+  template:
+    src: ./templates/user_list.j2
+    dest: /etc/vsftpd/user_list
+    owner: root
+    group: root
+    mode: "0644"
+    backup: yes
+  tags: install_vsftpd
+
+# create a directory if it doesn't exist
+- file:
+    path: /etc/vsftpd/users
+    state: directory
+    mode: 0755
+
+- name: Copy users files
+  copy:
+    src: ./files/users/ftp-user
+    dest: /etc/vsftpd/users/ftp-user
+    backup: yes
+  notify: restart vsftpd
+  tags: install_vsftpd
+
+# create a directory if it doesn't exist
+- name: Create ftp dir
+  file:
+    path: /mnt/nfsapp/ftp/
+    state: directory
+    mode: 0755
+
+- name: Add users
+  user:
+    name: "{{ item.username }}"
+    comment: "{{ item.username | default(item.username) }}"
+    password: "{{ item.password }}"
+    shell: /usr/sbin/nologin
+  with_items: "{{ vsftpd_users }}"
+  tags: install_vsftpd, add_users

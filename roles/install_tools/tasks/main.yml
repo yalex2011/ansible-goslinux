@@ -1,0 +1,9 @@
+---
+
+- name: Install tools
+  yum:
+    name:
+      - mc
+      - htop
+  state: present
+  tags: install_tools

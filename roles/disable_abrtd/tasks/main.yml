@@ -1,0 +1,26 @@
+---
+
+- name: Disable gpgcheck on abrt
+  lineinfile:
+    path: /etc/abrt/abrt-action-save-package-data.conf
+    regexp: 'OpenGPGCheck = yes'
+    line: 'OpenGPGCheck = no'
+  tags: abrt-disable-gpgcheck
+
+- name: Restart abrtd
+  service:
+    name: abrtd
+    state: restarted
+  tags: abrt-disable-gpgcheck
+
+- name: Stopped abrtd on system
+  service:
+    name: abrtd
+    state: stopped
+  tags: disable-abrtd
+
+- name: Disable autostart
+  service:
+    name: abrtd
+    enabled: no
+  tags: disable-abrtd

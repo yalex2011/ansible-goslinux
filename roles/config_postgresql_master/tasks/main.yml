@@ -1,0 +1,12 @@
+---
+
+- name: Initdb postgresql-1c
+  # become: true
+  become_method: su
+  become_user: postgres
+  shell: /usr/pgsql-9.6/bin/initdb
+  tags:
+    - config_postgresql_master
+    #- postgresql_initdb
+
+#- name: Configugate postgresql-1c server on master

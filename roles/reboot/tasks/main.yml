@@ -1,0 +1,19 @@
+---
+
+- name: Restart machine
+  shell: sleep 1 && logger "Reboot triggered by Ansible script" && shutdown -r now "Reboot triggered by Ansible script"
+  async: 1
+  poll: 0
+  become: true
+  tags: reboot
+
+- name: Wait for machine to restart
+  local_action:
+    module: wait_for
+      host={{ inventory_hostname }}
+      port=22
+      delay=15
+      timeout=300
+      state=started
+  become: false
+  tags: reboot

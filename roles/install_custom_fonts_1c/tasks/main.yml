@@ -1,0 +1,28 @@
+---
+
+- name: Create dir
+  file:
+    path: /home/usr1cv8/.fonts/
+    state: directory
+    owner: usr1cv8
+    group: grp1cv8
+    mode: 0755
+
+- name: Copy ttf fonts to server
+  copy:
+    src: ./files/Barcode.ttf
+    dest: /home/usr1cv8/.fonts/Barcode.ttf
+    owner: usr1cv8
+    group: grp1cv8
+    mode: 0644
+
+- name: Command to update the font information cache
+  become_user: usr1cv8
+  shell: fc-cache /home/usr1cv8/.fonts/
+
+- name: Allow ImageMagick LABEL coder
+  lineinfile:
+    path: /etc/ImageMagick/policy.xml
+    state: absent
+    regexp: '<policy domain="coder" rights="none" pattern="LABEL" />'
+    backup: yes

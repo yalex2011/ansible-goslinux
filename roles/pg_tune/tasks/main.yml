@@ -1,0 +1,9 @@
+---
+
+- name: Tune Postgresql
+  postgresql_tune:
+    db_version: "{{ postgresql_version }}"
+    db_type: "{{ postgresql_tune_db_type }}"
+    total_memory: "{{ postgresql_tune_total_memory }}"
+    max_connections: "{{ postgresql_tune_connections }}"
+    postgresql_file: "{{ postgresql_conf_directory }}/postgresql-tune.conf"

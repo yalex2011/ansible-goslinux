@@ -1,0 +1,13 @@
+---
+
+- name: Install nfs client
+  yum:
+    name: nfs-utils
+    state: installed
+
+- name: Create mount point
+  file:
+    path: "{{ nfs_share_path }}"
+    state: directory
+
+- name: Mount nfs share

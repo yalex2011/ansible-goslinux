@@ -1,0 +1,23 @@
+---
+
+- name: Creates directory
+  file:
+    path: /home/distr/
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+    recurse: yes
+  become: true
+
+- name: Copy 1C files
+  copy:
+    src: ./files/
+    dest: /home/distr/
+    mode: 0775
+
+- name: Распаковываем архив 8.3.10.2299.LinuxServer.x64.tar.gz
+  unarchive:
+    src: /home/distr/8.3.10.2299.LinuxServer.x64.tar.gz
+    dest: /home/distr/
+    remote_src: yes

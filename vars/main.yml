@@ -1,0 +1,11 @@
+---
+
+nfs_share_path: /mnt/nfsapp
+
+# Postgres_tune
+postgresql_version: 9.6
+postgresql_conf_directory: /var/lib/pgsql/9.6/data
+postgresql_tune_db_type: dw
+postgresql_tune_total_memory: "{{ ansible_memtotal_mb }}MB"
+#postgresql_tune_sysctl_file: /etc/sysctl.d/99-postgresql-tune.conf
+postgresql_tune_connections: 2000

@@ -1,0 +1,7 @@
+---
+vsftpd_config_template_path: /etc/vsftpd
+vsftpd_users:
+       - username: ftp-user
+         name: FTP User
+         # python -c 'import crypt; print crypt.crypt("ftp-user", "bia4Cier")'
+         password: 'biF/pGbSFhwcQ'

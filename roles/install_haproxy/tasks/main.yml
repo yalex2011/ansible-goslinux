@@ -1,0 +1,11 @@
+---
+
+- include: validate.yml
+
+- include: prerequisite.yml
+
+- include: install.yml
+
+- include: configure.yml
+
+- include: service.yml

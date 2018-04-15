@@ -1,0 +1,14 @@
+---
+
+- name: Install libs for 1C
+  yum:
+    name:
+      #- unixODBC
+      - libgsf
+      - t1lib
+      - icu
+      - httpd
+      - ImageMagick
+      - libxslt
+      - fontconfig
+    state: latest

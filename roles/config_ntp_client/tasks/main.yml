@@ -1,0 +1,65 @@
+---
+
+- name: Install ntp client
+  yum:
+    name:
+      - ntp
+      - ntpdate
+  state: latest
+
+- name: Ntp client autostart
+  service:
+    name: ntpd
+    enabled: yes
+
+- name: Stop ntpd
+  service:
+    name: ntpd
+    state: stopped
+
+- name: Configure clock
+  template:
+    src: ./templates/clock.j2
+    dest: /etc/sysconfig/clock
+
+- name: Create link to time zone
+  copy:
+    remote_src: True
+    src: /etc/localtime
+    dest: /etc/localtime.orig
+  ignore_errors: yes
+
+- name: Delete old file
+  file:
+    path: /etc/localtime
+    state: absent
+
+- name: Create link
+  file:
+    remote_src: True
+    src: /usr/share/zoneinfo/Europe/Moscow
+    dest: /etc/localtime
+    state: link
+
+- name: Chenge ntp config
+  lineinfile:
+    backup: True
+    path: /etc/ntp.conf
+    state: present
+    insertafter: '^server ntp1.vniiftri.ru'
+    line: 'server 10.0.5.100'
+
+- name: Sync datetime
+  shell: ntpdate -bs 10.0.5.100
+  # command: ntpdate -bs 10.0.5.100
+  failed_when: result.rc != 1
+  register: result
+  ignore_errors: yes
+  # register: command_result
+  # failed_when: "'FAILED' in command_result.stderr"
+
+
+- name: Starting ntpd
+  service:
+    name: ntpd
+    state: started

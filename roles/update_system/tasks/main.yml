@@ -1,0 +1,7 @@
+---
+
+- name: Update system
+  yum:
+    name: '*'
+  state: latest
+  tags: update_system

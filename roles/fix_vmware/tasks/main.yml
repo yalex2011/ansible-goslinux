@@ -1,0 +1,37 @@
+---
+
+- name: Disable gro\lro
+  shell: "{{ item }}"
+  with_items:
+    - ethtool -K ens192 gro off lro off
+    - ethtool -K ens224 gro off lro off
+
+# Так делать нельзя - network умирает
+# - name: Disable vmxnet module
+#   modprobe:
+#     name: vmxnet3
+#     state: absent
+#
+# - name: Add module with disable gro\lro
+#   modprobe:
+#     name: vmxnet3
+#     state: present
+#     params: 'disable_lro=1 disable_gro=1'
+
+- name: Install selinux-python
+  yum:
+    name: libselinux-python
+    state: installed
+
+- name: 'Add disable gro-lro in /etc/rc.local'
+  template:
+    src: ./templates/rc.j2
+    dest: /etc/rc.local
+
+# - name: Add disable gro\lro in /etc/rc.local
+#   lineinfile:
+#     path: /etc/rc.local
+#     regexp: '^touch\s'
+#     insertafter: '# Disable gro\lro'
+#     line: 'rmmod vmxnet3'
+#     - 'modprobe vmxnet3 disable_lro=1 disable_gro=1'
